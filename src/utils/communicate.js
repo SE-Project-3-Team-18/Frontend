@@ -35,6 +35,12 @@ const signIn = async (body) => {
   return response.data
 }
 
+const activate = async (body) => {
+  const url = new URL('/api/auth/activate', baseUrl).toString()
+  const response = await axios.post(url, body)
+  return response.data
+}
+
 const profile = async () => {
   console.log(config())
   const url = new URL('/api/profile', baseUrl).toString()
@@ -47,5 +53,6 @@ export const serverFunctions = {
   setToken,
   signUp,
   signIn,
+  activate,
   profile,
 }

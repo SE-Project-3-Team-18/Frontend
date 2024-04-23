@@ -14,6 +14,7 @@ import { CircularProgress, CssBaseline, ThemeProvider, createTheme } from '@mui/
 import NavBar from './components/Navbar';
 import { serverFunctions } from './utils/communicate';
 import Profile from './pages/profile';
+import Activate from './pages/activate';
 
 const darkTheme = createTheme({
   palette: {
@@ -36,6 +37,14 @@ function App() {
       serverFunctions.setToken(saved)
       setUser(saved)
       setLoading(false)
+
+      // console.log(window.location.href.endsWith)
+      if (
+        saved.activated === false &&
+        window.location.href.endsWith('/activate') === false
+      ) {
+        window.location.href = '/activate'
+      }
     }
   }, [])
 
@@ -60,6 +69,7 @@ function App() {
                       </>
                       :
                       <>
+                        <Route exact path='/activate' Component={Activate}></Route>
                         <Route exact path="/profile" Component={Profile}></Route>
                         <Route exact path='/welcome' Component={() => <div>Hello</div>}></Route>
                       </>
