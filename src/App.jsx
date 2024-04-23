@@ -1,34 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useEffect, useState } from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import './App.css'
+import SignIn from './pages/signIn'
+import SignUp from './pages/signUp';
+import NotifyContext from './context/NotifyContext';
+import NotifyPane from './components/Notify';
+import UserContext from './context/UserContext';
+import { CircularProgress, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import NavBar from './components/Navbar';
+import { serverFunctions } from './utils/communicate';
+import Profile from './pages/profile';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+const LightTheme = createTheme()
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [notification, Notify] = useState();
+  const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState('light')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const saved = JSON.parse(window.localStorage.getItem('InstaCommerce:user'))
+    // console.log(saved)
+    if (saved) {
+      serverFunctions.setToken(saved)
+      setUser(saved)
+      setLoading(false)
+    }
+  }, [])
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : LightTheme}>
+      <CssBaseline />
+      <UserContext.Provider value={{ user, setUser }}>
+        <NotifyContext.Provider value={{ notification, Notify }}>
+          <BrowserRouter>
+            <NotifyPane></NotifyPane>
+            <NavBar theme={theme} setTheme={setTheme}></NavBar>
+            {
+              loading ?
+                <CircularProgress /> :
+                <Routes>
+                  {
+                    user === null ?
+                      <>
+                        <Route exact path="/sign-in" Component={SignIn}></Route>
+                        <Route exact path="/sign-up" Component={SignUp}></Route>
+                      </>
+                      :
+                      <>
+                        <Route exact path="/profile" Component={Profile}></Route>
+                        <Route exact path='/welcome' Component={() => <div>Hello</div>}></Route>
+                      </>
+                  }
+                </Routes>
+            }
+          </BrowserRouter>
+        </NotifyContext.Provider>
+      </UserContext.Provider>
+    </ThemeProvider>
   )
 }
 
