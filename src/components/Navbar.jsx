@@ -1,69 +1,90 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AdjustIcon from '@mui/icons-material/Adjust';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { DarkMode, LightMode } from '@mui/icons-material';
-import UserContext from '../context/UserContext';
-import { serverFunctions } from '../utils/communicate';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { useContext, useState } from "react";
+import { useNavigate, useRouteError } from "react-router-dom";
+import AdjustIcon from "@mui/icons-material/Adjust";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { DarkMode, LightMode } from "@mui/icons-material";
+import UserContext from "../context/UserContext";
+import { serverFunctions } from "../utils/communicate";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function NavBar({ theme, setTheme }) {
-  const { user, setUser } = useContext(UserContext)
-  const navigate = useNavigate()
+  const { user, setUser } = useContext(UserContext);
+  const { logout } = useContext(UserContext)
+  const navigate = useNavigate();
 
-  const settings = [{
-    name: 'Profile',
-    action: () => { handleCloseUserMenu(); navigate('/profile') },
-    icon: ManageAccountsIcon
-  }, {
-    name: 'Notifications',
-    action: () => { handleCloseUserMenu(); navigate('/notifications') },
-    icon: NotificationsActiveIcon
-  }, {
-    name: 'Log Out',
-    action: logout,
-    icon: LogoutIcon
-  }];
+  const settings = [
+    {
+      name: "Profile",
+      action: () => {
+        handleCloseUserMenu();
+        navigate("/profile");
+      },
+      icon: ManageAccountsIcon,
+    },
+    {
+      name: "Notifications",
+      action: () => {
+        handleCloseUserMenu();
+        navigate("/notifications");
+      },
+      icon: NotificationsActiveIcon,
+    },
+    {
+      name: "Log Out",
+      action: logout,
+      icon: LogoutIcon,
+    },
+  ];
 
-  const pages = [{
-    name: 'Welcome',
-    action: () => navigate('/welcome'),
-    icon: AdjustIcon
-  }];
-
-  function logout() {
-    handleCloseUserMenu()
-    window.localStorage.removeItem('InstaCommerce:token')
-    setUser(null)
-    serverFunctions.resetToken()
-    navigate('/sign-in')
-  }
+  const pages = [
+    {
+      name: "Products",
+      action: () => navigate("/product"),
+      icon: AddBoxIcon,
+      role: "general"
+    },
+    {
+      name: "Cart",
+      action: () => navigate("/cart"),
+      icon: ShoppingCartIcon,
+      role: "general"
+    },
+    {
+      name: "Create Item",
+      action: () => navigate("/create-item"),
+      icon: AddCircleIcon,
+      role: "seller"
+    },
+  ];
 
   const toggleTheme = () => {
-    if (theme === 'light') {
-      window.localStorage.setItem('Greddit:theme', 'dark')
-      setTheme('dark')
+    if (theme === "light") {
+      window.localStorage.setItem("Greddit:theme", "dark");
+      setTheme("dark");
     } else {
-      window.localStorage.setItem('Greddit:theme', 'light')
-      setTheme('light')
+      window.localStorage.setItem("Greddit:theme", "light");
+      setTheme("light");
     }
-  }
-
+  };
+  console.log("user", user);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -82,10 +103,9 @@ function NavBar({ theme, setTheme }) {
     setAnchorElUser(null);
   };
 
-
   return (
-    <AppBar position="sticky" sx={{ zIndex: '5' }}>
-      <Container >
+    <AppBar position="sticky" sx={{ zIndex: "5" }}>
+      <Container>
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -94,19 +114,18 @@ function NavBar({ theme, setTheme }) {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             InstaCommerce
           </Typography>
-          {
-            user &&
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          {user && (
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -121,18 +140,18 @@ function NavBar({ theme, setTheme }) {
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
+                  vertical: "bottom",
+                  horizontal: "left",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
+                  vertical: "top",
+                  horizontal: "left",
                 }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: 'block', md: 'none' },
+                  display: { xs: "block", md: "none" },
                 }}
               >
                 {pages.map((page) => (
@@ -145,7 +164,7 @@ function NavBar({ theme, setTheme }) {
                 ))}
               </Menu>
             </Box>
-          }
+          )}
           <Typography
             variant="h5"
             noWrap
@@ -153,80 +172,95 @@ function NavBar({ theme, setTheme }) {
             href=""
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Greddit
           </Typography>
-          {
-            user &&
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
+          {user && (
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pages.filter((page) => (page.role=="general" || page.role==user.role)).map((page) => (
                 <Button
                   key={page.name}
                   onClick={page.action}
-                  sx={{ color: 'white', display: 'block', margin: 0, padding: 0, ml: 2 }}
+                  sx={{
+                    color: "white",
+                    display: "block",
+                    margin: 0,
+                    padding: 0,
+                    ml: 2,
+                  }}
                 >
                   <Box>
                     <page.icon sx={{ height: 10 }} />
-                    <Typography textAlign="center" sx={{ fontSize: 11 }}>{page.name}</Typography>
+                    <Typography textAlign="center" sx={{ fontSize: 11 }}>
+                      {page.name}
+                    </Typography>
                   </Box>
                 </Button>
               ))}
             </Box>
-          }
-          {
-            !user &&
+          )}
+          {!user && (
             <Box sx={{ flexGrow: 0 }}>
               <Button onClick={toggleTheme}>
-                {theme === 'light' ? <DarkMode sx={{ color: 'black' }} /> : <LightMode sx={{ color: 'white' }} />}
+                {theme === "light" ? (
+                  <DarkMode sx={{ color: "black" }} />
+                ) : (
+                  <LightMode sx={{ color: "white" }} />
+                )}
               </Button>
             </Box>
-          }
-          {
-            user &&
+          )}
+          {user && (
             <Box sx={{ flexGrow: 0 }}>
               <Button onClick={toggleTheme}>
-                {theme === 'light' ? <DarkMode sx={{ color: 'black' }} /> : <LightMode sx={{ color: 'white' }} />}
+                {theme === "light" ? (
+                  <DarkMode sx={{ color: "black" }} />
+                ) : (
+                  <LightMode sx={{ color: "white" }} />
+                )}
               </Button>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" >
+                  <Avatar alt="Remy Sharp">
                     {/* <PersonRoundedIcon /> */}
                     {user.name[0]}
                   </Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{ mt: '45px' }}
+                sx={{ mt: "45px" }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting.name} onClick={setting.action}>
-                    <Typography textAlign="center"><setting.icon /> {setting.name}</Typography>
+                    <Typography textAlign="center">
+                      <setting.icon /> {setting.name}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
-          }
+          )}
         </Toolbar>
       </Container>
     </AppBar>

@@ -4,6 +4,7 @@ import {
   BrowserRouter,
   Route,
   Routes,
+  Navigate
 } from "react-router-dom";
 import './App.css';
 import NavBar from './components/Navbar';
@@ -20,6 +21,7 @@ import UpgradeToSeller from './pages/upgradeToSeller';
 import NotificationPage from './pages/notifications';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
+import Cart from './pages/cart';
 
 const darkTheme = createTheme({
   palette: {
@@ -81,6 +83,7 @@ function App() {
                       <>
                         <Route exact path="/sign-in" Component={SignIn}></Route>
                         <Route exact path="/sign-up" Component={SignUp}></Route>
+                        <Route path="*" element={<Navigate replace to="/sign-in"/>} /> 
                       </>
                       :
                       <>
@@ -88,10 +91,11 @@ function App() {
                         <Route exact path="/profile" Component={Profile}></Route>
                         <Route exact path="/notifications" Component={NotificationPage}></Route>
                         <Route exact path="/upgrade-to-seller" Component={UpgradeToSeller}></Route>
-                        <Route exact path='/welcome' Component={() => <div>Hello</div>}></Route>
                         <Route exact path="/product" Component={Product}></Route>
                         <Route exact path="/create-item" Component={Item}></Route>
                         <Route exact path="/orders" Component={OrdersPage}></Route>
+                        <Route exact path="/cart" Component={Cart}></Route>
+                        <Route path="*" element={<Navigate replace to="/profile"/>} /> 
                       </>
                   }
                 </Routes>
