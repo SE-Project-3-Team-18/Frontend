@@ -77,7 +77,7 @@ function App() {
                 <CircularProgress /> :
                 <Routes>
                   {
-                    user !== null ?
+                    user === null ?
                       <>
                         <Route exact path="/sign-in" Component={SignIn}></Route>
                         <Route exact path="/sign-up" Component={SignUp}></Route>
