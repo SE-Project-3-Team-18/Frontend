@@ -12,7 +12,7 @@ const Cart = () => {
       const received_data = await serverFunctions.getCart();
       console.log("received data", received_data);
       setcartItems(received_data.items);
-      setprice(received_data.total);
+      setprice(received_data.total);profile
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +65,7 @@ const Cart = () => {
         try {
           const received_data = await serverFunctions.clearCart();
           await loadResults(); 
+          setcartItems(undefined);
           console.log("received data", received_data);
         } catch (error) {
           console.log(error);
@@ -77,17 +78,17 @@ const Cart = () => {
   return (
     <div className="cart-container">
       <h2>Shopping Cart</h2>
-      {cartItems && cartItems.length === 0 ? (
+      {!cartItems ? (
         <div className="cart-empty">
           <p>Your cart is currently empty</p>
           <div className="start-shopping">
-            <Link to="/">
+            <Link to="/product">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
                 fill="currentColor"
-                className="bi bi-arrow-left"
+                className="bi bi-arrow-lprofileeft"
                 viewBox="0 0 16 16"
               >
                 <path
