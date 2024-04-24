@@ -163,6 +163,25 @@ const getNotifications = async () => {
   const response = await axios.get(url, config())
   return response.data
 }
+const getAllOrders = async () => {
+  const url = new URL("/api/order/all", baseUrl).toString();
+  const response = await axios.get(url, config());
+  return response.data
+};
+
+const getOrderById = async (id) => {
+  const url = new URL(`/api/order/${id}`, baseUrl).toString();
+  const response = await axios.get(url,{}, config());
+  return response.data
+};
+
+const cancelOrder = async (id) => {
+  const url = new URL(`/api/order/${id}`,baseUrl).toString();
+  const response = await axios.post(url, {}, config());
+  return response.data
+};
+
+
 
 const readNotification = async (notifId) => {
   const url = new URL(`/api/notification/read`, baseUrl).toString()
@@ -179,6 +198,10 @@ export const serverFunctions = {
   signIn,
   activate,
   profile,
+  getAllOrders,
+  getOrderById,
+  cancelOrder,
+  handleCheckout,
   registerForSeller,
   getSellerDetails,
   getNotifications,
@@ -195,5 +218,4 @@ export const serverFunctions = {
   clearCart,
   decrementCartItembyId,
   removeCartItembyId,
-  handleCheckout
 };

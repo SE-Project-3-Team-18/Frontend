@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, Container, Typography } from '@mui/material';
 import React, { useEffect, useState } from "react";
-import { orderService } from "../utils/OrderService";
+import { serverFunctions } from "../utils/communicate";
 
 const OrderItem = ({ order, onCancel }) => {
   const { id, customerAddress, orderStatus, products } = order;
@@ -46,7 +46,7 @@ const OrdersPage = () => {
 
   const loadOrders = async () => {
     try {
-      const data = await orderService.getAllOrders();
+      const data = await serverFunctions.getAllOrders();
       setOrders(data.orders);
     } catch (error) {
       console.error('Error loading orders:', error);
@@ -55,7 +55,7 @@ const OrdersPage = () => {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      await orderService.cancelOrder(orderId);
+      await serverFunctions.cancelOrder(orderId);
       // Reload orders after cancellation
       loadOrders();
     } catch (error) {

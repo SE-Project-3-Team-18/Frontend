@@ -2,9 +2,9 @@ import { CircularProgress, CssBaseline, ThemeProvider, createTheme } from '@mui/
 import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter,
+  Navigate,
   Route,
-  Routes,
-  Navigate
+  Routes
 } from "react-router-dom";
 import './App.css';
 import NavBar from './components/Navbar';
@@ -12,16 +12,18 @@ import NotifyPane from './components/Notify';
 import NotifyContext from './context/NotifyContext';
 import UserContext from './context/UserContext';
 import Activate from './pages/activate';
+import Cart from './pages/cart';
+import CheckoutFailure from './pages/checkout-cancel';
+import CheckoutSuccess from './pages/checkout-success';
 import Item from './pages/item';
+import NotificationPage from './pages/notifications';
 import OrdersPage from './pages/orders';
 import Product from './pages/product';
 import Profile from './pages/profile';
-import { serverFunctions } from './utils/communicate';
-import UpgradeToSeller from './pages/upgradeToSeller';
-import NotificationPage from './pages/notifications';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
-import Cart from './pages/cart';
+import UpgradeToSeller from './pages/upgradeToSeller';
+import { serverFunctions } from './utils/communicate';
 
 const darkTheme = createTheme({
   palette: {
@@ -94,6 +96,8 @@ function App() {
                         <Route exact path="/product" Component={Product}></Route>
                         <Route exact path="/create-item" Component={Item}></Route>
                         <Route exact path="/orders" Component={OrdersPage}></Route>
+                        <Route exact path="/checkout-success" Component={CheckoutSuccess}></Route>
+                        <Route exact path="/checkout-cancel" Component={CheckoutFailure}></Route>
                         <Route exact path="/cart" Component={Cart}></Route>
                         <Route path="*" element={<Navigate replace to="/profile"/>} /> 
                       </>

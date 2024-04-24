@@ -1,29 +1,26 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import { useContext, useState } from "react";
-import { useNavigate, useRouteError } from "react-router-dom";
-import AdjustIcon from "@mui/icons-material/Adjust";
-import EqualizerIcon from "@mui/icons-material/Equalizer";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { DarkMode, LightMode } from "@mui/icons-material";
-import UserContext from "../context/UserContext";
-import { serverFunctions } from "../utils/communicate";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LogoutIcon from "@mui/icons-material/Logout";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 function NavBar({ theme, setTheme }) {
   const { user, setUser } = useContext(UserContext);
@@ -72,6 +69,12 @@ function NavBar({ theme, setTheme }) {
       action: () => navigate("/create-item"),
       icon: AddCircleIcon,
       role: "seller"
+    },
+    {
+      name: "My Orders",
+      action: () => navigate("/orders"),
+      icon: ShoppingBasketIcon,
+      role: "general"
     },
   ];
 
