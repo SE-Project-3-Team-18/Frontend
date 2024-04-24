@@ -1,22 +1,23 @@
+import { CircularProgress, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter,
-  Routes,
   Route,
+  Routes,
 } from "react-router-dom";
-import './App.css'
-import SignIn from './pages/signIn'
-import SignUp from './pages/signUp';
-import NotifyContext from './context/NotifyContext';
-import NotifyPane from './components/Notify';
-import UserContext from './context/UserContext';
-import { CircularProgress, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import './App.css';
 import NavBar from './components/Navbar';
-import { serverFunctions } from './utils/communicate';
-import Profile from './pages/profile';
+import NotifyPane from './components/Notify';
+import NotifyContext from './context/NotifyContext';
+import UserContext from './context/UserContext';
 import Activate from './pages/activate';
-import Product from './pages/product';
 import Item from './pages/item';
+import OrdersPage from './pages/orders';
+import Product from './pages/product';
+import Profile from './pages/profile';
+import SignIn from './pages/signIn';
+import SignUp from './pages/signUp';
+import { serverFunctions } from './utils/communicate';
 
 const darkTheme = createTheme({
   palette: {
@@ -30,7 +31,7 @@ function App() {
   const [notification, Notify] = useState();
   const [user, setUser] = useState(null);
   const [theme, setTheme] = useState('light')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const saved = JSON.parse(window.localStorage.getItem('InstaCommerce:user'))
@@ -64,7 +65,7 @@ function App() {
                 <CircularProgress /> :
                 <Routes>
                   {
-                    user === null ?
+                    user !== null ?
                       <>
                         <Route exact path="/sign-in" Component={SignIn}></Route>
                         <Route exact path="/sign-up" Component={SignUp}></Route>
@@ -76,6 +77,7 @@ function App() {
                         <Route exact path='/welcome' Component={() => <div>Hello</div>}></Route>
                         <Route exact path="/product" Component={Product}></Route>
                         <Route exact path="/create-item" Component={Item}></Route>
+                        <Route exact path="/orders" Component={OrdersPage}></Route>
                       </>
                   }
                 </Routes>
