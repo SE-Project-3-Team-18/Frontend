@@ -17,6 +17,8 @@ import Profile from './pages/profile';
 import Activate from './pages/activate';
 import Product from './pages/product';
 import Item from './pages/item';
+import UpgradeToSeller from './pages/upgradeToSeller';
+import NotificationPage from './pages/notifications';
 
 const darkTheme = createTheme({
   palette: {
@@ -31,6 +33,14 @@ function App() {
   const [user, setUser] = useState(null);
   const [theme, setTheme] = useState('light')
   const [loading, setLoading] = useState(true)
+
+  const logout = () => {
+    setLoading(true)
+    serverFunctions.resetToken()
+    window.localStorage.removeItem('InstaCommerce:user')
+    setUser(null)
+    setLoading(false)
+  }
 
   useEffect(() => {
     const saved = JSON.parse(window.localStorage.getItem('InstaCommerce:user'))
@@ -47,6 +57,8 @@ function App() {
       ) {
         window.location.href = '/activate'
       }
+    } else {
+      setLoading(false)
     }
   }, [])
 
@@ -54,7 +66,7 @@ function App() {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : LightTheme}>
       <CssBaseline />
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser, logout }}>
         <NotifyContext.Provider value={{ notification, Notify }}>
           <BrowserRouter>
             <NotifyPane></NotifyPane>
@@ -73,6 +85,8 @@ function App() {
                       <>
                         <Route exact path='/activate' Component={Activate}></Route>
                         <Route exact path="/profile" Component={Profile}></Route>
+                        <Route exact path="/notifications" Component={NotificationPage}></Route>
+                        <Route exact path="/upgrade-to-seller" Component={UpgradeToSeller}></Route>
                         <Route exact path='/welcome' Component={() => <div>Hello</div>}></Route>
                         <Route exact path="/product" Component={Product}></Route>
                         <Route exact path="/create-item" Component={Item}></Route>

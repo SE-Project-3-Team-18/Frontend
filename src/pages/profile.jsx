@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -21,13 +21,84 @@ import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 import { serverFunctions } from '../utils/communicate';
 import NotifyContext from '../context/NotifyContext';
 import { redirect } from 'react-router-dom';
+import UserContext from '../context/UserContext';
+
+function SellerProfile(props){
+
+  const data = props.data
+  console.log(data)
+  return (
+    <Box
+      sx={{
+        marginTop: 8,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      Seller Profile details
+      <Box component="form" noValidate sx={{ mt: 1 }}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="companyName"
+          label="Company Name"
+          name="companyName"
+          autoComplete="companyName"
+          autoFocus
+          disabled
+          defaultValue={data.companyName}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="phoneNo"
+          label="Phone No"
+          type="phoneNo"
+          id="phoneNo"
+          autoComplete="phoneNo"
+          disabled
+          defaultValue={data.phoneNo}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="address"
+          label="Address"
+          type="address"
+          id="address"
+          autoComplete="address"
+          disabled
+          defaultValue={data.address}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="pinCode"
+          label="PIN Code"
+          type="pinCode"
+          id="pinCode"
+          autoComplete="pinCode"
+          disabled
+          defaultValue={data.pinCode}
+        />
+      </Box>
+    </Box>
+  )
+}
 
 export default function Profile() {
   const { Notify } = React.useContext(NotifyContext)
 
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext)
 
   const [data, setData] = useState(undefined);
+  const [selData, setSelData] = useState(undefined)
 
   useEffect(() => {
     console.log("Inside")
@@ -37,6 +108,21 @@ export default function Profile() {
         setData(res.details)
       })
   }, [])
+
+  useEffect(() => {
+    if (!user) {
+      return
+    }
+    if (user.role !== 'seller') {
+      return
+    }
+
+    serverFunctions
+      .getSellerDetails()
+      .then((res) => {
+        setSelData(res.details)
+      })
+  }, [user])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -113,6 +199,20 @@ export default function Profile() {
                     </Select>
                   </FormControl>
                 </Grid>
+                {
+                  user?.role === "seller" ?
+                    <Grid item xs={12}>
+                      {
+                        selData &&
+                        <SellerProfile  data={selData}/>
+                      }
+                    </Grid> :
+                    <Grid item xs={12}>
+                      <Link href="/upgrade-to-seller">
+                        Want to become a seller?
+                      </Link>
+                    </Grid>
+                }
               </Grid>
             </Box>
           </Box>
