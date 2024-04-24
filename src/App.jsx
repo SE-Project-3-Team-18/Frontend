@@ -15,6 +15,8 @@ import NavBar from './components/Navbar';
 import { serverFunctions } from './utils/communicate';
 import Profile from './pages/profile';
 import Activate from './pages/activate';
+import Product from './pages/product';
+import Item from './pages/item';
 
 const darkTheme = createTheme({
   palette: {
@@ -72,6 +74,8 @@ function App() {
                         <Route exact path='/activate' Component={Activate}></Route>
                         <Route exact path="/profile" Component={Profile}></Route>
                         <Route exact path='/welcome' Component={() => <div>Hello</div>}></Route>
+                        <Route exact path="/product" Component={Product}></Route>
+                        <Route exact path="/create-item" Component={Item}></Route>
                       </>
                   }
                 </Routes>
