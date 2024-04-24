@@ -48,6 +48,32 @@ const profile = async () => {
   return response.data
 }
 
+const registerForSeller = async (body) => {
+  const url = new URL('/api/seller', baseUrl).toString()
+  const response = await axios.post(url, body, config())
+  return response.data
+}
+
+const getSellerDetails = async () => {
+  const url = new URL('/api/seller', baseUrl).toString()
+  const response = await axios.get(url, config())
+  return response.data
+}
+
+const getNotifications = async () => {
+  const url = new URL('/api/notification', baseUrl).toString()
+  const response = await axios.get(url, config())
+  return response.data
+}
+
+const readNotification = async (notifId) => {
+  const url = new URL(`/api/notification/read`, baseUrl).toString()
+  const response = await axios.post(url, {
+    notificationId: notifId,
+  }, config())
+  return response.data
+}
+
 export const serverFunctions = {
   resetToken,
   setToken,
@@ -55,4 +81,8 @@ export const serverFunctions = {
   signIn,
   activate,
   profile,
+  registerForSeller,
+  getSellerDetails,
+  getNotifications,
+  readNotification,
 }

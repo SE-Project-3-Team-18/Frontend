@@ -20,6 +20,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { DarkMode, LightMode } from '@mui/icons-material';
 import UserContext from '../context/UserContext';
 import { serverFunctions } from '../utils/communicate';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 function NavBar({ theme, setTheme }) {
   const { user, setUser } = useContext(UserContext)
@@ -29,6 +30,10 @@ function NavBar({ theme, setTheme }) {
     name: 'Profile',
     action: () => { handleCloseUserMenu(); navigate('/profile') },
     icon: ManageAccountsIcon
+  }, {
+    name: 'Notifications',
+    action: () => { handleCloseUserMenu(); navigate('/notifications') },
+    icon: NotificationsActiveIcon
   }, {
     name: 'Log Out',
     action: logout,

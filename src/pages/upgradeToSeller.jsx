@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -17,52 +17,37 @@ import NotifyContext from '../context/NotifyContext';
 import UserContext from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function UpgradeToSeller() {
   const navigate = useNavigate()
   const { Notify } = React.useContext(NotifyContext)
-  const { setUser } = React.useContext(UserContext)
+  const { logout } = React.useContext(UserContext)
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const body = {
-      email: data.get('email'),
-      password: data.get('password'),
+      companyName: data.get('companyName'),
+      phoneNo: data.get('phoneNo'),
+      address: data.get('address'),
+      pinCode: data.get('pinCode'),
     }
 
     try {
       const result = await serverFunctions
-        .signIn(body)
-      setUser(result)
-      window
-        .localStorage
-        .setItem('InstaCommerce:user', JSON.stringify(result))
-      serverFunctions.setToken(result.token)
+        .registerForSeller(body)
+
+      logout()
+      navigate('/sign-in')
       Notify({
         type: 'success',
-        message: 'SignIn successfull'
+        message: `${result.message}`
       })
-      navigate('/welcome')
-      // setLoading(false);
-      // redirect('/sign-in')
     } catch (e) {
+      console.log('Error:', e)
       Notify({
         type: 'error',
         message: `${e.response?.data?.message}`
@@ -72,6 +57,7 @@ export default function SignIn() {
   };
 
   return (
+    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -83,35 +69,51 @@ export default function SignIn() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+            <CurrencyRupeeIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Upgrade to Seller
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="companyName"
+              label="Company Name"
+              name="companyName"
+              autoComplete="companyName"
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              name="phoneNo"
+              label="Phone No"
+              type="phoneNo"
+              id="phoneNo"
+              autoComplete="phoneNo"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="address"
+              label="Address"
+              type="address"
+              id="address"
+              autoComplete="address"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="pinCode"
+              label="PIN Code"
+              type="pinCode"
+              id="pinCode"
+              autoComplete="pinCode"
             />
             <Button
               type="submit"
@@ -119,18 +121,11 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Submit
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="/sign-up" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+    </ThemeProvider>
   );
 }
