@@ -17,6 +17,7 @@ import Product from './pages/product';
 import Profile from './pages/profile';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
+import Cart from './pages/cart';
 import { serverFunctions } from './utils/communicate';
 
 const darkTheme = createTheme({
@@ -65,7 +66,7 @@ function App() {
                 <CircularProgress /> :
                 <Routes>
                   {
-                    user !== null ?
+                    user === null ?
                       <>
                         <Route exact path="/sign-in" Component={SignIn}></Route>
                         <Route exact path="/sign-up" Component={SignUp}></Route>
@@ -78,6 +79,7 @@ function App() {
                         <Route exact path="/product" Component={Product}></Route>
                         <Route exact path="/create-item" Component={Item}></Route>
                         <Route exact path="/orders" Component={OrdersPage}></Route>
+                        <Route exact path="/cart" Component={Cart}></Route>
                       </>
                   }
                 </Routes>

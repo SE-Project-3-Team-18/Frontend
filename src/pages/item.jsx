@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { serverFunctions } from "../utils/ProductService";
+import { serverFunctions } from "../utils/communicate";
 import { redirect } from "react-router-dom";
 import NotifyContext from '../context/NotifyContext';
 
