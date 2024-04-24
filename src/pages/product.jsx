@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import { serverFunctions } from "../utils/ProductService";
+import { serverFunctions } from "../utils/communicate";
 import { redirect } from "react-router-dom";
 
 export default function Product() {
@@ -36,6 +36,19 @@ export default function Product() {
     };
     fetchData();
   }, []);
+
+  const handleAddToCart = (product) => {
+    const fetchData = async () => {
+        try {
+          const received_data = await serverFunctions.addToCart(product._id);
+          console.log("received data", received_data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    fetchData(); 
+  };
+  
   const url = "https://www.mattsenkumar.com/wp-content/uploads/2021/01/ecom.jpg"
   return (
     <div className="home-container">

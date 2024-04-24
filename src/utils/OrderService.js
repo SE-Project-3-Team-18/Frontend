@@ -1,7 +1,7 @@
 import axios from "axios";
 const baseUrl = "http://localhost:4242";
 
-let token = window.localStorage.getItem("Greddit:token") || null;
+let token = window.localStorage.getItem("InstaCommerce:user") || null;
 
 const resetToken = () => {
   token = null;

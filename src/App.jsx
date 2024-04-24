@@ -20,6 +20,8 @@ import UpgradeToSeller from './pages/upgradeToSeller';
 import NotificationPage from './pages/notifications';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
+import Cart from './pages/cart';
+import { serverFunctions } from './utils/communicate';
 
 const darkTheme = createTheme({
   palette: {
@@ -92,6 +94,7 @@ function App() {
                         <Route exact path="/product" Component={Product}></Route>
                         <Route exact path="/create-item" Component={Item}></Route>
                         <Route exact path="/orders" Component={OrdersPage}></Route>
+                        <Route exact path="/cart" Component={Cart}></Route>
                       </>
                   }
                 </Routes>
