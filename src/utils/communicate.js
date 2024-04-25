@@ -176,7 +176,7 @@ const getOrderById = async (id) => {
 };
 
 const cancelOrder = async (id) => {
-  const url = new URL(`/api/order/${id}`,baseUrl).toString();
+  const url = new URL(`/api/order/cancel/${id}`,baseUrl).toString();
   const response = await axios.post(url, {}, config());
   return response.data
 };
