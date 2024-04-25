@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
 import {
-  Typography,
-  TextField,
   Box,
   Button,
-  CircularProgress,
   Rating,
+  Typography
 } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import NotifyContext from "../context/NotifyContext";
 import { serverFunctions } from "../utils/communicate";
 
 export default function Product() {
+  const { Notify } = useContext(NotifyContext)
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(undefined);
   const [products, setProducts] = useState([]);
@@ -79,9 +79,17 @@ export default function Product() {
   const handleAddToCart = async (product) => {
     try {
       const received_data = await serverFunctions.addToCart(product._id);
+      Notify({
+        type: 'success',
+        message: 'Added to cart',
+      })
       console.log("received data", received_data);
     } catch (error) {
       console.log(error);
+      Notify({
+        type: 'error',
+        message: 'Unable to add to cart',
+      })
     }
   };
 
