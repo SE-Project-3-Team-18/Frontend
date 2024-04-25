@@ -171,7 +171,7 @@ const getAllOrders = async () => {
 
 const getOrderById = async (id) => {
   const url = new URL(`/api/order/${id}`, baseUrl).toString();
-  const response = await axios.get(url,{}, config());
+  const response = await axios.get(url, config());
   return response.data
 };
 
@@ -188,6 +188,21 @@ const readNotification = async (notifId) => {
   const response = await axios.post(url, {
     notificationId: notifId,
   }, config())
+  return response.data
+}
+
+const rateProduct = async (productId, rating, review) => {
+  const url = new URL(`/api/product-ratings/rate/${productId}`, baseUrl).toString()
+  const response = await axios.post(url, {
+    rating: rating,
+    review: review
+  }, config())
+  return response.data
+}
+
+const getRating = async (productId) => {
+  const url = new URL(`/api/product-ratings/get/${productId}`, baseUrl).toString()
+  const response = await axios.get(url, config())
   return response.data
 }
 
@@ -218,4 +233,6 @@ export const serverFunctions = {
   clearCart,
   decrementCartItembyId,
   removeCartItembyId,
+  rateProduct,
+  getRating,
 };

@@ -24,6 +24,7 @@ import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
 import UpgradeToSeller from './pages/upgradeToSeller';
 import { serverFunctions } from './utils/communicate';
+import SingleOrderPage from './pages/singleOrder';
 
 const darkTheme = createTheme({
   palette: {
@@ -96,6 +97,7 @@ function App() {
                         <Route exact path="/product" Component={Product}></Route>
                         <Route exact path="/create-item" Component={Item}></Route>
                         <Route exact path="/orders" Component={OrdersPage}></Route>
+                        <Route exact path="/orders/:id" Component={SingleOrderPage}></Route>
                         <Route exact path="/checkout-success" Component={CheckoutSuccess}></Route>
                         <Route exact path="/checkout-cancel" Component={CheckoutFailure}></Route>
                         <Route exact path="/cart" Component={Cart}></Route>

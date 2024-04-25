@@ -12,7 +12,7 @@ const Cart = () => {
       const received_data = await serverFunctions.getCart();
       console.log("received data", received_data);
       setcartItems(received_data.items);
-      setprice(received_data.total);profile
+      setprice(received_data.total);
     } catch (error) {
       console.log(error);
     }
